@@ -17,10 +17,10 @@ are a lot more distracting than steady fan noise.
 I can't claim it's optimal, but it Works For My Machine (TM). Full load is about 
 75C and 80%.
 ''')
-parser.add_argument('--temp', nargs='+', default=[55, 80], type=float, help='The temperature ranges where the fan speed will increase linearly')
-parser.add_argument('--speed', nargs='+', default=[30, 99], type=float, help='The fan speed ranges')
+parser.add_argument('--temp', nargs='+', default=[50, 70, 80], type=float, help='The temperature ranges where the fan speed will increase linearly')
+parser.add_argument('--speed', nargs='+', default=[30, 70, 80], type=float, help='The fan speed ranges')
 parser.add_argument('--hyst', nargs='?', default=2, type=float, help='The hysteresis gap. Large gaps will reduce how often the fan speed is changed, but might mean the fan runs faster than necessary')
-parser.add_argument('--kill', action='store_true', default=False, help='Whether to kill existing Xorg sessions')
+parser.add_argument('--kill', action='store_true', default=True, help='Whether to kill existing Xorg sessions')
 parser.add_argument('--verbose', action='store_true', default=False, help='Whether to print extra debugging information')
 parser.add_argument('--debug', action='store_true', default=False, help='Whether to only start the Xorg subprocesses, and not actually alter the fan speed. This can be useful for debugging.')
 args = parser.parse_args()
@@ -70,6 +70,7 @@ Section "Device"
         Option      "CustomEDID" "DFP-0:{edid}"
         Option      "Coolbits" "29"
         BusID       "PCI:{bus}"
+        Option "Interactive" "off"
 EndSection
 
 Section "Monitor"
@@ -173,6 +174,8 @@ def xservers(buses):
     displays, servers = {}, {}
     try:
         for d, bus in enumerate(buses):
+            if bus != '00000000:03:00.0':
+                continue
             displays[bus] = ':' + str(d)
             servers[bus] = xserver(displays[bus], bus)
         yield displays

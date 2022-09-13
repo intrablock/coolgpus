@@ -1,3 +1,11 @@
+### Added
+```
+sudo python3 coolgpus.py
+```
+* CUDA error: the launch timed out and was terminated
+    * https://blog.csdn.net/a435262767/article/details/105123416
+    * https://nvidia.custhelp.com/app/answers/detail/a_id/3029/~/using-cuda-and-x
+
 **30/09/21: This is abandonware. I do not have time to maintain it any more, and haven't for some time. It might work for you, in which case great! If not, feel free to post an issue on the tracker but don't expect advice from me or for any future bug fixes to be integrated.**
 
 **If you're reading this and want to commit to maintaining this repo, message me and I'll be happy to hand it over**
